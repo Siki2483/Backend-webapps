@@ -8,6 +8,8 @@ const app = express();
 // Middleware
 app.use(express.json());
 app.use(cors());
+app.use("/api/auth", require("./routes/auth"));
+
 
 // Povezivanje s MongoDB-om
 const PORT = process.env.PORT || 5000;
@@ -19,9 +21,30 @@ mongoose
   .catch((err) => console.log(err));
 
 // Test ruta
+
+app.get("/test", (req, res) => {
+  res.send("Test ruta radi!");
+});
+
+
 app.get("/", (req, res) => {
   res.send("Backend radi!");
 });
+
+
+// obrisati 
+app._router.stack.forEach((middleware) => {
+  if (middleware.route) {
+    console.log(`Ruta dostupna: ${middleware.route.path}`);
+  } else if (middleware.name === "router") {
+    middleware.handle.stack.forEach((handler) => {
+      if (handler.route) {
+        console.log(`Ruta dostupna: ${handler.route.path}`);
+      }
+    });
+  }
+});
+
 
 // Pokretanje servera
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
