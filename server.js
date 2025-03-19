@@ -9,6 +9,7 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 app.use("/api/auth", require("./routes/auth"));
+app.use ("/api/restaurants", require("./routes/restorani"));
 
 
 // Povezivanje s MongoDB-om
@@ -31,8 +32,6 @@ app.get("/", (req, res) => {
   res.send("Backend radi!");
 });
 
-
-// obrisati 
 app._router.stack.forEach((middleware) => {
   if (middleware.route) {
     console.log(`Ruta dostupna: ${middleware.route.path}`);
