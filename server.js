@@ -6,10 +6,11 @@ const cors = require("cors");
 const app = express();
 
 // Middleware
-app.use(express.json());
-app.use(cors());
-app.use("/api/auth", require("./routes/auth"));
+app.use (express.json());
+app.use (cors());
+app.use ("/api/auth", require("./routes/auth"));
 app.use ("/api/restaurants", require("./routes/restorani"));
+app.use (require("./middleware/errorHandler"));
 
 
 // Povezivanje s MongoDB-om
