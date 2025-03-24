@@ -11,6 +11,7 @@ app.use (cors());
 app.use ("/api/auth", require("./routes/auth"));
 app.use ("/api/restaurants", require("./routes/restorani"));
 app.use (require("./middleware/errorHandler"));
+app.use ("/api/locations", require("./routes/locations"));
 
 
 // Povezivanje s MongoDB-om

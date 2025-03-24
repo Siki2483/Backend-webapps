@@ -20,11 +20,17 @@ router.delete("/:id", auth, admin, async (req, res) => {
 
 
 router.post("/", auth, async (req, res) => {
-    const {name, location, description } = req.body;
+    const {name, location, description, mapLink } = req.body;
 
     try {
 
-        let restaurant = new Restaurant({name, location, description});
+        let restaurant = new Restaurant({
+            name, 
+            location, 
+            description, 
+            mapLink,
+        });
+
         await restaurant.save();
         res.json (restaurant);
 

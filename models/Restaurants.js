@@ -6,6 +6,8 @@ const RestaurantSchema = new mongoose.Schema({
     location: {type: String, required: true},
     description: {type: String},
     raiting: {type: Number, default: 0},
+    mapLinks: {type: String},
+    createdBy: {type: mongoose.Schema.Types.ObjectId, ref: "User" },
     reviews: [
         {
             user: {type: mongoose.Schema.Types.ObjectId, ref: "User"},
@@ -16,4 +18,4 @@ const RestaurantSchema = new mongoose.Schema({
     ],
 });
 
-module.exports = mongoose.model("Restaurant, Restaurant.Schema");
+module.exports = mongoose.model("Restaurant", RestaurantSchema);

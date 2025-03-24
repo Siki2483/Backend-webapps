@@ -1,0 +1,27 @@
+const mongoose = require ("mongoose");
+
+const LocationSchema = new mongoose.Schema({
+
+    name: {type: String, required: true},
+    type: {type: String, enum: ["locations", "beaches"], required: true},
+    description: {type: String},
+    cordinates: {
+        lat: Number,
+        lng: Number,
+    },
+    mapLinks: {type: String},
+    createdBy: {type: mongoose.Schema.Types.ObjectId, ref: "User"},
+    createdAT: {type: Date, default: Date.now},
+
+    reviews: [
+        {
+            user: {type: mongoose.Schema.Types.ObjectId, ref: "User"},
+            text: {type: String, required: true},
+            rating: {type: Number, min: 1, max: 5, required: true},
+            createdAT: {type: Date, defualt: Date.now},
+        }
+    ],
+});
+
+
+module.exports = mongoose.model("Location", LocationSchema);
