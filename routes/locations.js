@@ -31,7 +31,8 @@ router.post("/", auth, async (req, res) => {
 
 router.get("/", async (req, res) => {
   try {
-    const locations = await Location.find();
+    const locations = await Location.findById(req.params.id).populate("reviews.user","name");
+    if (!location) return res.status(404).json({msg: "Not found"});
     res.json(locations);
   } catch (err) {
     console.error(err.message);
@@ -76,6 +77,14 @@ router.post("/:id/reviews", auth, async (req, res) => {
 
     if (!location) {
       return res.status(404).json({ msg: "Location not found" });
+    }
+
+    const alreadyReviewed = location.reviews.find(
+      (r) => r.user.toString() === req.user.id
+    );
+
+    if (alreadyReviewed) {
+      return res.status(400).json({msg: "You have allready reviewed this location"});
     }
 
     const newReview = {

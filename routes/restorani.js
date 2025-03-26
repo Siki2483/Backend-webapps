@@ -40,10 +40,11 @@ router.post("/", auth, async (req, res) => {
     }
 });
 
-router.get ("/", async (req, res) => {
+router.get ("/:id", async (req, res) => {
 
     try {
-        const restaurants = await Restaurant.find();
+        const restaurants = await Restaurant.findById(req.params.id).populate("reviews.user", "name");
+        if (!restaurant) return res.status(404).json({msg: "Not found"});
         res.json(restaurants);
     } catch (err) {
         console.error(err.message);
@@ -53,27 +54,40 @@ router.get ("/", async (req, res) => {
 
 // Recenzije
 
-router.post("/:id/rewievs", auth, async(req, res) => {
-    try {
-        const restaurants = await Restaurants.findById(req.params.id);
-        if (!restaurants) {
-            return res.status(404).json({msg: "Restaurant not found"});
-        }
-
-        const newRewiev = {
-            user: req.user.id,
-            text: req.body.text,
-            raiting: req.body.raiting,
-        };
-
-        restaurant.reviews.push(newRewiev);
-        await restaurant.save();
-        res.json(restaurant);
-    } catch (err) {
-        console.error(err.message);
-        res.status(505).send("Server error");
+router.post("/:id/reviews", auth, async (req, res) => {
+    const { text, rating } = req.body;
+  
+    if (!text || !rating) {
+      return res.status(400).json({ msg: "Text and rating are required." });
     }
-
-});
+  
+    try {
+      const restaurant = await Restaurant.findById(req.params.id);
+      if (!restaurant) {
+        return res.status(404).json({ msg: "Restaurant not found" });
+      }
+  
+      const alreadyReviewed = restaurant.reviews.find(
+        (r) => r.user.toString() === req.user.id
+      );
+      if (alreadyReviewed) {
+        return res.status(400).json({ msg: "Već si recenzirao ovaj restoran." });
+      }
+  
+      const newReview = {
+        user: req.user.id,
+        text,
+        rating,
+      };
+  
+      restaurant.reviews.push(newReview);
+      await restaurant.save();
+  
+      res.json(restaurant.reviews);
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send("Server error");
+    }
+  });
 
 module.exports = router;
