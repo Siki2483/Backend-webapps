@@ -2,6 +2,7 @@ const express = require("express");
 const auth = require("../middleware/auth");
 const Location = require("../models/Locations");
 
+
 const router = express.Router();
 
 // dodavanje
@@ -31,8 +32,7 @@ router.post("/", auth, async (req, res) => {
 
 router.get("/", async (req, res) => {
   try {
-    const locations = await Location.findById(req.params.id).populate("reviews.user","name");
-    if (!location) return res.status(404).json({msg: "Not found"});
+    const locations = await Location.find().populate("reviews.user","name");
     res.json(locations);
   } catch (err) {
     console.error(err.message);
