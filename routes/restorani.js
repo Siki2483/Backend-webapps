@@ -40,16 +40,14 @@ router.post("/", auth, async (req, res) => {
     }
 });
 
-router.get ("/:id", async (req, res) => {
-
-    try {
-        const restaurants = await Restaurant.findById(req.params.id).populate("reviews.user", "name");
-        if (!restaurant) return res.status(404).json({msg: "Not found"});
-        res.json(restaurants);
-    } catch (err) {
-        console.error(err.message);
-        res.status(500).send("Server error");
-    }
+router.get("/", async (req, res) => {
+  try {
+    const restaurants = await Restaurant.find().populate("reviews.user", "name");
+    res.json(restaurants);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Server error");
+  }
 });
 
 // Recenzije

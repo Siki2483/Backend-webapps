@@ -12,6 +12,7 @@ app.use ("/api/auth", require("./routes/auth"));
 app.use ("/api/restaurants", require("./routes/restorani"));
 app.use (require("./middleware/errorHandler"));
 app.use ("/api/locations", require("./routes/locations"));
+app.use ("/api/nightlife", require ("./routes/Nightlife"));
 
 
 // Povezivanje s MongoDB-om
@@ -33,6 +34,8 @@ app.get("/test", (req, res) => {
 app.get("/", (req, res) => {
   res.send("Backend radi!");
 });
+
+app.use("/api/upload", require("./routes/upload"));
 
 app._router.stack.forEach((middleware) => {
   if (middleware.route) {
