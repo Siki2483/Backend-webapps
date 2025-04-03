@@ -6,7 +6,7 @@ const User = require("../models/User");
 const authMiddleware = require("../middleware/auth");
 const router = express.Router();
 
-// REGISTER
+
 
 router.post(
   "/register",
@@ -36,13 +36,13 @@ router.post(
         password,
       });
 
-      // Hash password
+      
       const salt = await bcrypt.genSalt(10);
       user.password = await bcrypt.hash(password, salt);
 
       await user.save();
 
-      // JWT token
+      
       const payload = {
         user: {
           id: user.id,
@@ -65,7 +65,7 @@ router.post(
   }
 );
 
-// LOGIN
+
 
 router.post(
   "/login",
@@ -94,7 +94,7 @@ router.post(
         return res.status(400).json({ msg: "Invalid email or password" });
       }
 
-      // Generiranje JWT tokena
+      
       const payload = {
         user: {
           id: user.id,

@@ -5,7 +5,6 @@ const { model } = require("mongoose");
 
 const router = express.Router();
 
-// (ADMIN)
 
 const admin = require("../middleware/admin");
 
@@ -20,15 +19,15 @@ router.delete("/:id", auth, admin, async (req, res) => {
 
 
 router.post("/", auth, async (req, res) => {
-    const {name, location, description, mapLink } = req.body;
+    const {name, type, mapLink, description, image } = req.body;
 
     try {
 
         let restaurant = new Restaurant({
             name, 
-            location, 
+            type,
+            mapLink, 
             description, 
-            mapLink,
             image,
             createdBy: req.user.id
         });
@@ -52,7 +51,7 @@ router.get("/", async (req, res) => {
   }
 });
 
-// Recenzije
+
 
 router.post("/:id/reviews", auth, async (req, res) => {
     const { text, rating } = req.body;
@@ -71,7 +70,7 @@ router.post("/:id/reviews", auth, async (req, res) => {
         (r) => r.user.toString() === req.user.id
       );
       if (alreadyReviewed) {
-        return res.status(400).json({ msg: "Već si recenzirao ovaj restoran." });
+        return res.status(400).json({ msg: "You allready reviewd this restaurant." });
       }
   
       const newReview = {

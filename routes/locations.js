@@ -5,18 +5,17 @@ const Location = require("../models/Locations");
 
 const router = express.Router();
 
-// dodavanje
+
 
 router.post("/", auth, async (req, res) => {
-  const { name, type, description, coordinates, mapsLink } = req.body;
+  const { name, type, description, image, } = req.body;
 
   try {
     const location = new Location({
       name,
       type, 
       description,
-      coordinates,
-      mapsLink,
+      image,
       createdBy: req.user.id,
     });
 
@@ -28,7 +27,7 @@ router.post("/", auth, async (req, res) => {
   }
 });
 
-// dohvacivanje
+
 
 router.get("/", async (req, res) => {
   try {
@@ -40,7 +39,7 @@ router.get("/", async (req, res) => {
   }
 });
 
-// azuriranje
+
 
 router.put("/:id", auth, async (req, res) => {
   try {
@@ -64,7 +63,7 @@ router.put("/:id", auth, async (req, res) => {
   }
 });
 
-// recnzija
+
 router.post("/:id/reviews", auth, async (req, res) => {
   const { text, rating } = req.body;
 
@@ -104,7 +103,7 @@ router.post("/:id/reviews", auth, async (req, res) => {
 });
 
 
-// za brisanje
+
 
 router.delete("/:id", auth, async (req, res) => {
   try {

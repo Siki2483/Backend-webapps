@@ -6,13 +6,13 @@ const router = express.Router();
 
 
 router.post("/", auth, async (req, res) => {
-  const { name, description, coordinates, mapsLink } = req.body;
+  const { name, description, location, image } = req.body;
   try {
     const nightlife = new Nightlife({
       name,
       description,
-      coordinates,
-      mapsLink,
+      location,
+      image,
       createdBy: req.user.id,
     });
     await nightlife.save();

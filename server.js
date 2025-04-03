@@ -7,7 +7,7 @@ const fs = require("fs");
 
 const app = express();
 
-// Middleware
+
 app.use(express.json());
 app.use(cors());
 
@@ -20,7 +20,7 @@ if (!fs.existsSync(uploadDir)) {
 
 app.use("/uploads", express.static(path.join(__dirname, "public/uploads")));
 
-// ✅ API Routes
+
 app.use("/api/auth", require("./routes/auth"));
 app.use("/api/restaurants", require("./routes/restorani"));
 app.use("/api/locations", require("./routes/locations"));
@@ -50,7 +50,7 @@ app._router.stack.forEach((middleware) => {
   }
 });
 
-// ✅ Connect to MongoDB
+
 const PORT = process.env.PORT || 5000;
 const MONGO_URI = process.env.MONGO_URI;
 
@@ -59,5 +59,5 @@ mongoose
   .then(() => console.log("MongoDB connected"))
   .catch((err) => console.log(err));
 
-// ✅ Start server
+
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
