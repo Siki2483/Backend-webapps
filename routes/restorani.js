@@ -29,6 +29,8 @@ router.post("/", auth, async (req, res) => {
             location, 
             description, 
             mapLink,
+            image,
+            createdBy: req.user.id
         });
 
         await restaurant.save();
