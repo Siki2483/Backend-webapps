@@ -1,6 +1,6 @@
 const express = require("express");
 const auth = require("../middleware/auth");
-const Restaurant = require("../models/Restaurants");
+const Restaurant = require("../models/Restaurant");
 const { model } = require("mongoose");
 
 const router = express.Router();
@@ -51,6 +51,17 @@ router.get("/", async (req, res) => {
   }
 });
 
+router.get("/:id", async (req, res) => {
+  try {
+    const restaurants = await Restaurant.findById(req.params.id).populate("reviews.user", "name");
+    if (!restaurants) return res.status(404).json({ msg: "Not found" });
+    res.json(restaurants);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Server error");
+  }
+});
+
 
 
 router.post("/:id/reviews", auth, async (req, res) => {
@@ -89,4 +100,4 @@ router.post("/:id/reviews", auth, async (req, res) => {
     }
   });
 
-module.exports = router;
+  module.exports = router;

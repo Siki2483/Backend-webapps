@@ -22,7 +22,7 @@ app.use("/uploads", express.static(path.join(__dirname, "public/uploads")));
 
 
 app.use("/api/auth", require("./routes/auth"));
-app.use("/api/restaurants", require("./routes/restorani"));
+app.use("/api/restaurants", require("./routes/restaurants"));
 app.use("/api/locations", require("./routes/locations"));
 app.use("/api/nightlife", require("./routes/Nightlife"));
 app.use("/api/upload", require("./routes/upload"));
