@@ -8,7 +8,7 @@ const router = express.Router();
 
 
 router.post("/", auth, async (req, res) => {
-  const { name, type, description, image, } = req.body;
+  const { name, type, description, image, mapLink } = req.body;
 
   try {
     const location = new Location({
@@ -16,6 +16,7 @@ router.post("/", auth, async (req, res) => {
       type, 
       description,
       image,
+      mapLink,
       createdBy: req.user.id,
     });
 

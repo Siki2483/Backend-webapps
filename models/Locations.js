@@ -3,13 +3,10 @@ const mongoose = require ("mongoose");
 const LocationSchema = new mongoose.Schema({
 
     name: {type: String, required: true},
-    type: {type: String, enum: ["locations", "beaches"], required: true},
+    type: {type: String, enum: ["location", "beach"], required: true},
     description: {type: String},
-    cordinates: {
-        lat: Number,
-        lng: Number,
-    },
-    mapLinks: {type: String},
+    image: {type: String},
+    mapLink: {type: String},
     createdBy: {type: mongoose.Schema.Types.ObjectId, ref: "User"},
     createdAT: {type: Date, default: Date.now},
 
