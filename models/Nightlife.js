@@ -2,9 +2,10 @@ const mongoose = require("mongoose");
 
 const NightlifeSchema = new mongoose.Schema({
   name: { type: String, required: true },
+  type: {type: String, enum: ["nightclub", "beachbar", "caffebar"], required: true},
   description: { type: String },
-  coordinates: { type: String },
-  mapsLink: { type: String },
+  mapLink: { type: String },
+  image: {type: String},
   createdBy: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
   reviews: [
     {

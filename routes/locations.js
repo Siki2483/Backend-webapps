@@ -40,7 +40,16 @@ router.get("/", async (req, res) => {
   }
 });
 
-
+router.get("/:id", async (req, res) => {
+  try {
+    const locations = await Location.findById(req.params.id).populate("reviews.user", "name");
+    if (!locations) return res.status(404).json({ msg: "Not found" });
+    res.json(locations);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Server error");
+  }
+});
 
 router.put("/:id", auth, async (req, res) => {
   try {

@@ -6,12 +6,13 @@ const router = express.Router();
 
 
 router.post("/", auth, async (req, res) => {
-  const { name, description, location, image } = req.body;
+  const { name, type, description, mapLink, image } = req.body;
   try {
     const nightlife = new Nightlife({
       name,
+      type,
       description,
-      location,
+      mapLink,
       image,
       createdBy: req.user.id,
     });
@@ -77,7 +78,7 @@ router.put("/:id", auth, async (req, res) => {
     nightlife.name = req.body.name || nightlife.name;
     nightlife.description = req.body.description || nightlife.description;
     nightlife.coordinates = req.body.coordinates || nightlife.coordinates;
-    nightlife.mapsLink = req.body.mapsLink || nightlife.mapsLink;
+    nightlife.mapLink = req.body.mapLink || nightlife.mapLink;
 
     await nightlife.save();
     res.json(nightlife);

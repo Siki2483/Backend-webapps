@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const RestaurantSchema = new mongoose.Schema({
 
     name: {type: String, required: true},
-    type : {type: String},
+    type : {type: String, enum: ["Pizzeria", "Restaurant", "Grill", "Konoba"], required: true},
     description: {type: String},
     rating: {type: Number, default: 0},
     mapLink: {type: String},
