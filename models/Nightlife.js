@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const NightlifeSchema = new mongoose.Schema({
   name: { type: String, required: true },
-  type: {type: String, enum: ["nightclub", "beachbar", "caffebar"], required: true},
+  type: {type: String, enum: ["Nightclub", "Beachbar", "Caffebar"], required: true},
   description: { type: String },
   mapLink: { type: String },
   image: {type: String},

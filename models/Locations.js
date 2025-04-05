@@ -3,7 +3,7 @@ const mongoose = require ("mongoose");
 const LocationSchema = new mongoose.Schema({
 
     name: {type: String, required: true},
-    type: {type: String, enum: ["location", "beach"], required: true},
+    type: {type: String, enum: ["Location", "Beach"], required: true},
     description: {type: String},
     image: {type: String},
     mapLink: {type: String},
