@@ -21,10 +21,14 @@ router.post(
       return res.status(400).json({ errors: errors.array() });
     }
 
-    const { name, email, password } = req.body;
+    const { name, email, password, confirmPassword } = req.body;
 
     try {
       let user = await User.findOne({ email });
+
+      if (password !== confirmPassword) {
+        return res.status(400).json({msg: "Passwords dont match"});
+      }
 
       if (user) {
         return res.status(400).json({ msg: "User already exists" });
@@ -34,6 +38,7 @@ router.post(
         name,
         email,
         password,
+        confirmPassword
       });
 
       
