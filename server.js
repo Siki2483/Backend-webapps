@@ -10,9 +10,10 @@ const app = express();
 
 app.use(express.json());
 app.use(cors({
-  origin: ["https://tourist-info-pula.web.app/", "http://localhost:3000/"],
+  origin: ["https://tourist-info-pula.web.app", "http://localhost:3000"],
   methods: ["GET", "POST", "PUT", "DELETE"],
-  allowedHeaders: ["Content-Type", "x-auth-token"]
+  allowedHeaders: ["Content-Type", "x-auth-token"],
+  credentials: true,
 }));
 
 
