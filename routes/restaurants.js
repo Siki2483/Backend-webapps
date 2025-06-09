@@ -100,4 +100,31 @@ router.post("/:id/reviews", auth, async (req, res) => {
     }
   });
 
+  router.get("/nearby", async (req, res) => {
+    const { lat, lng } = req.query;
+  
+    if (!lat || !lng) {
+      return res.status(400).json({ msg: "Latitude and longitude are required" });
+    }
+  
+    try {
+      const locations = await Restaurant.find({
+        location: {
+          $nearSphere: {
+            $geometry: {
+              type: "Point",
+              coordinates: [parseFloat(lng), parseFloat(lat)],
+            },
+            $maxDistance: 5000,
+          },
+        },
+      });
+  
+      res.json(locations);
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send("Server error");
+    }
+  });
+
   module.exports = router;

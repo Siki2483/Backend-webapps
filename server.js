@@ -32,6 +32,7 @@ app.use("/api/locations", require("./routes/locations"));
 app.use("/api/nightlife", require("./routes/Nightlife"));
 app.use("/api/upload", require("./routes/upload"));
 app.use(require("./middleware/errorHandler"));
+app.use("/api/recommended", require("./routes/recommended"));
 
 
 app.get("/test", (req, res) => {
