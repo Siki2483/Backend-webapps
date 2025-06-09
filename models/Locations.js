@@ -10,15 +10,28 @@ const LocationSchema = new mongoose.Schema({
     createdBy: {type: mongoose.Schema.Types.ObjectId, ref: "User"},
     createdAT: {type: Date, default: Date.now},
 
+    location : {
+        type: {
+            type : String,
+            enum : ['Point'],
+            defualt : 'Point'
+        },
+        coordinates : {
+            type : [Number], 
+            required : true
+        }
+    },
+
     reviews: [
         {
             user: {type: mongoose.Schema.Types.ObjectId, ref: "User"},
             text: {type: String, required: true},
             rating: {type: Number, min: 1, max: 5, required: true},
-            createdAT: {type: Date, defualt: Date.now},
+            createdAT: {type: Date, default: Date.now},
         }
     ],
 });
 
+LocationSchema.index({ location: '2dsphere' });
 
 module.exports = mongoose.model("Location", LocationSchema);
