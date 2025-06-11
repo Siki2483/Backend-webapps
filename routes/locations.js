@@ -8,25 +8,31 @@ const router = express.Router();
 
 
 router.post("/", auth, async (req, res) => {
-  const { name, type, description, image, mapLink } = req.body;
+  const { name, type, description, image, mapLink, location } = req.body;
+
+  if (!location || !location.coordinates || location.coordinates.length !== 2) {
+    return res.status(400).json({ msg: "Invalid coordinates." });
+  }
 
   try {
-    const location = new Location({
+    const locationEntry = new Location({
       name,
-      type, 
+      type,
       description,
       image,
       mapLink,
+      location,
       createdBy: req.user.id,
     });
 
-    await location.save();
-    res.json(location);
+    await locationEntry.save();
+    res.json(locationEntry);
   } catch (err) {
-    console.error(err.message);
+    console.error("POST /locations error:", err.message);
     res.status(500).send("Server error");
   }
 });
+
 
 
 
