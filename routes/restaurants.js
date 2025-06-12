@@ -19,26 +19,29 @@ router.delete("/:id", auth, admin, async (req, res) => {
 
 
 router.post("/", auth, async (req, res) => {
-    const {name, type, mapLink, description, image } = req.body;
+  const { name, type, mapLink, description, image, location } = req.body;
 
-    try {
+  if (!location || !location.coordinates || location.coordinates.length !== 2) {
+    return res.status(400).json({ msg: "Invalid or missing coordinates." });
+  }
 
-        let restaurant = new Restaurant({
-            name, 
-            type,
-            mapLink, 
-            description, 
-            image,
-            createdBy: req.user.id
-        });
+  try {
+    let restaurant = new Restaurant({
+      name,
+      type,
+      mapLink,
+      description,
+      image,
+      location,
+      createdBy: req.user.id
+    });
 
-        await restaurant.save();
-        res.json (restaurant);
-
-    } catch (err) {
-    console.error(err.message);
+    await restaurant.save();
+    res.json(restaurant);
+  } catch (err) {
+    console.error("POST /restaurants error:", err.message);
     res.status(500).send("Server error");
-    }
+  }
 });
 
 router.get("/", async (req, res) => {

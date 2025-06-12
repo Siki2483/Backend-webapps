@@ -6,6 +6,7 @@ const router = express.Router();
 const upload = multer({ storage });
 
 router.post("/", upload.single("image"), (req, res) => {
+  console.log("Uploaded file path:", req.file.path); 
   res.send({ imagePath: req.file.path || req.file.url });
 });
 
