@@ -6,23 +6,33 @@ const router = express.Router();
 
 
 router.post("/", auth, async (req, res) => {
-  const { name, type, description, mapLink, image } = req.body;
+  console.log("REQUEST BODY:", req.body);
+
+  const { name, type, description, image, mapLink, location } = req.body;
+
+  if (!location || !location.coordinates || location.coordinates.length !== 2) {
+    return res.status(400).json({ msg: "Invalid coordinates." });
+  }
+
   try {
-    const nightlife = new Nightlife({
+    const nightlifeEntry = new Nightlife({
       name,
       type,
       description,
-      mapLink,
       image,
+      mapLink,
+      location,
       createdBy: req.user.id,
     });
-    await nightlife.save();
-    res.json(nightlife);
+
+    await nightlifeEntry.save();
+    res.json(nightlifeEntry);
   } catch (err) {
-    console.error(err.message);
+    console.error("POST /nightlife error:", err.message);
     res.status(500).send("Server error");
   }
 });
+
 
 
 router.get("/", async (req, res) => {
