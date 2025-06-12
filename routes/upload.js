@@ -7,7 +7,7 @@ const upload = multer({ storage });
 
 router.post("/", upload.single("image"), (req, res) => {
   console.log("Uploaded file path:", req.file.path); 
-  res.send({ imagePath: req.file.path || req.file.url });
+  res.send({ imagePath: req.file.path });
 });
 
 module.exports = router;
